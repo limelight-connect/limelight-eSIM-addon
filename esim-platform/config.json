@@ -1,6 +1,6 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
@@ -65,7 +65,7 @@
     "data_retention_days": 30,
     "max_upload_size": "50MB",
     "api_timeout": 300,
-    "next_public_base_path": "",
+    "next_public_base_path": "/hassio/ingress/3980046c_esim-platform",
     "next_public_api_url": "",
     "next_public_dev_api_url": ""
   },

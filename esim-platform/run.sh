@@ -19,11 +19,19 @@ DATA_RETENTION_DAYS=${DATA_RETENTION_DAYS:-30}
 MAX_UPLOAD_SIZE=${MAX_UPLOAD_SIZE:-"50M"}
 API_TIMEOUT=${API_TIMEOUT:-300}
 
+# 前端环境变量（从HA add-on options获取）
+NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-""}
+NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-""}
+NEXT_PUBLIC_DEV_API_URL=${NEXT_PUBLIC_DEV_API_URL:-""}
+
 echo "📋 Configuration loaded:"
 echo "  - Log Level: ${LOG_LEVEL}"
 echo "  - Timezone: ${TIMEZONE}"
 echo "  - Debug: ${DEBUG}"
 echo "  - Serial Device: ${SERIAL_DEVICE}"
+echo "  - Next.js Base Path: ${NEXT_PUBLIC_BASE_PATH}"
+echo "  - Next.js API URL: ${NEXT_PUBLIC_API_URL}"
+echo "  - Next.js Dev API URL: ${NEXT_PUBLIC_DEV_API_URL}"
 
 # 设置时区
 if [ -n "${TIMEZONE}" ] && [ "${TIMEZONE}" != "UTC" ]; then
@@ -55,6 +63,11 @@ export CELERY_TIMEZONE=${TIMEZONE}
 export DATA_RETENTION_DAYS=${DATA_RETENTION_DAYS}
 export MAX_UPLOAD_SIZE=${MAX_UPLOAD_SIZE}
 export API_TIMEOUT=${API_TIMEOUT}
+
+# 导出前端环境变量
+export NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH}
+export NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+export NEXT_PUBLIC_DEV_API_URL=${NEXT_PUBLIC_DEV_API_URL}
 
 # 创建必要的目录
 echo "📁 Creating necessary directories..."
