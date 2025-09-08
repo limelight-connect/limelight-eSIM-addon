@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-ADDON_NAME="limelight-eSIM-addon"
+ADDON_NAME="limelight-esim-addon"
 VERSION=${1:-"1.0.13"}
 BUILD_ARCH=${2:-"amd64"}
 
@@ -25,8 +25,8 @@ echo -e "Architecture: ${GREEN}${BUILD_ARCH}${NC}"
 echo ""
 
 # Check if we're in the right directory
-if [ ! -f "config.json" ]; then
-    echo -e "${RED}❌ Error: config.json not found. Please run this script from the ha-addon directory.${NC}"
+if [ ! -f "esim-platform/config.json" ]; then
+    echo -e "${RED}❌ Error: esim-platform/config.json not found. Please run this script from the ha-addon directory.${NC}"
     exit 1
 fi
 

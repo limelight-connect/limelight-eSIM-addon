@@ -70,6 +70,18 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV NODE_ENV=production
 
+# HA Add-on 配置环境变量
+ENV LOG_LEVEL=INFO
+ENV TIMEZONE=Asia/Shanghai
+ENV SECRET_KEY=""
+ENV DEBUG=False
+ENV ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+ENV CORS_ALLOWED_ORIGINS=http://localhost,http://127.0.0.1
+ENV SERIAL_DEVICE=/dev/ttyUSB2
+ENV DATA_RETENTION_DAYS=30
+ENV MAX_UPLOAD_SIZE=50M
+ENV API_TIMEOUT=300
+
 # 安装系统依赖
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \

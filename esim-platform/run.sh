@@ -14,7 +14,7 @@ SECRET_KEY=${SECRET_KEY:-""}
 DEBUG=${DEBUG:-"False"}
 ALLOWED_HOSTS=${ALLOWED_HOSTS:-"localhost,127.0.0.1,0.0.0.0"}
 CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-"http://localhost,http://127.0.0.1"}
-SERIAL_DEVICE=${SERIAL_DEVICE:-"/dev/ttyUSB0"}
+SERIAL_DEVICE=${SERIAL_DEVICE:-"/dev/ttyUSB2"}
 DATA_RETENTION_DAYS=${DATA_RETENTION_DAYS:-30}
 MAX_UPLOAD_SIZE=${MAX_UPLOAD_SIZE:-"50M"}
 API_TIMEOUT=${API_TIMEOUT:-300}
@@ -88,12 +88,13 @@ fi
 # 检查配置的串口设备
 if [ -e "${SERIAL_DEVICE}" ]; then
     echo "✅ Configured serial device ${SERIAL_DEVICE} found"
-    chmod 666 ${SERIAL_DEVICE}
-    # 确保设备可访问
+    # 在HA add-on环境中，设备权限由supervisor管理，不需要手动修改
+    # 检查设备是否可访问
     if [ ! -r "${SERIAL_DEVICE}" ] || [ ! -w "${SERIAL_DEVICE}" ]; then
-        echo "⚠️  Serial device ${SERIAL_DEVICE} permissions may need adjustment"
-        # 尝试修复权限
-        chmod 666 ${SERIAL_DEVICE} 2>/dev/null || true
+        echo "⚠️  Serial device ${SERIAL_DEVICE} may not be accessible"
+        echo "📋 Device permissions: $(ls -la ${SERIAL_DEVICE} 2>/dev/null || echo 'Unable to read')"
+    else
+        echo "✅ Serial device ${SERIAL_DEVICE} is accessible"
     fi
     echo "✅ Serial device ${SERIAL_DEVICE} is ready for use"
 else
@@ -112,7 +113,8 @@ else
     if [ -n "${AUTO_DETECTED}" ]; then
         echo "✅ Using auto-detected device: ${AUTO_DETECTED}"
         export SERIAL_DEVICE="${AUTO_DETECTED}"
-        chmod 666 "${AUTO_DETECTED}"
+        # 在HA add-on环境中，设备权限由supervisor管理
+        echo "📋 Auto-detected device permissions: $(ls -la ${AUTO_DETECTED} 2>/dev/null || echo 'Unable to read')"
     else
         echo "⚠️  No suitable serial device found - continuing without serial device"
         echo "📋 Please check:"
