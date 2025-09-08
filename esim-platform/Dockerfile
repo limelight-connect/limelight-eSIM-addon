@@ -144,7 +144,7 @@ RUN mkdir -p /var/log/supervisor /var/run/nginx
 RUN mkdir -p /data /config /ssl /addons /share /media /backup
 
 # 暴露端口
-EXPOSE 80
+EXPOSE 80 8099
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \

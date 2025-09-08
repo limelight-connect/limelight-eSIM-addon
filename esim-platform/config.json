@@ -1,6 +1,6 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
@@ -52,10 +52,12 @@
     "/dev/ttyUSB3"
   ],
   "ports": {
-    "80/tcp": 8080
+    "80/tcp": 8080,
+    "8099/tcp": "Frontend tcp-listen port"
   },
   "ports_description": {
-    "80/tcp": "eSIM Platform Web Interface"
+    "80/tcp": "eSIM Platform Web Interface",
+    "8099/tcp": "Frontend tcp-listen port"
   },
   "options": {
     "log_level": "info",
