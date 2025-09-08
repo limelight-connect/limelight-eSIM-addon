@@ -110,7 +110,7 @@ RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 复制HA add-on特定的启动脚本
-COPY run.sh /run.sh
+COPY ha-addon/esim-platform/run.sh /run.sh
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /run.sh /entrypoint.sh
 
