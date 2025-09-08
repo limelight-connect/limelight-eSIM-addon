@@ -190,8 +190,8 @@ dmesg | grep tty               # 查看设备连接日志
 # 构建成功
 ✅ Build completed successfully!
 📋 Build Summary:
-Image Name: esim-platform-ha-addon-amd64-1.0.13
-Latest Tag: esim-platform-ha-addon-amd64-latest
+Image Name: limelight-eSIM-addon-amd64-1.0.13
+Latest Tag: limelight-eSIM-addon-amd64-latest
 ```
 
 ### 2. 配置验证

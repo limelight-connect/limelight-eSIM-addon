@@ -25,7 +25,7 @@ A comprehensive eSIM management system designed to run as a Home Assistant add-o
 1. **Add the repository to Home Assistant**:
    - Go to **Settings** → **Add-ons** → **Add-on Store**
    - Click the three dots menu (⋮) → **Repositories**
-   - Add repository URL: `https://github.com/limelight-connect/esim-platform-ha-addon`
+   - Add repository URL: `https://github.com/limelight-connect/limelight-eSIM-addon`
 
 2. **Install the add-on**:
    - Find "eSIM Management Platform" in the add-on store

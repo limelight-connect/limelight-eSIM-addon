@@ -8,10 +8,10 @@
 
 | 架构 | 状态 | 镜像标签 | 用途 |
 |------|------|----------|------|
-| **aarch64** | ✅ 已测试 | `esim-platform-ha-addon-aarch64:1.0.13` | ARM 64位 (树莓派4, 树莓派5, 其他ARM64设备) |
-| **amd64** | ✅ 已测试 | `esim-platform-ha-addon-amd64:1.0.13` | x86_64 (Intel/AMD 64位) |
-| **armv7** | ✅ 已测试 | `esim-platform-ha-addon-armv7:1.0.13` | ARM 32位 (树莓派3, 其他ARM32设备) |
-| **armhf** | ✅ 配置支持 | `esim-platform-ha-addon-armhf:1.0.13` | ARM 硬浮点 |
+| **aarch64** | ✅ 已测试 | `limelight-eSIM-addon-aarch64:1.0.13` | ARM 64位 (树莓派4, 树莓派5, 其他ARM64设备) |
+| **amd64** | ✅ 已测试 | `limelight-eSIM-addon-amd64:1.0.13` | x86_64 (Intel/AMD 64位) |
+| **armv7** | ✅ 已测试 | `limelight-eSIM-addon-armv7:1.0.13` | ARM 32位 (树莓派3, 其他ARM32设备) |
+| **armhf** | ✅ 配置支持 | `limelight-eSIM-addon-armhf:1.0.13` | ARM 硬浮点 |
 
 ### 📋 配置文件支持
 
@@ -56,13 +56,13 @@ done
 
 #### 当前可用的镜像
 ```bash
-$ docker images | grep esim-platform-ha-addon
-esim-platform-ha-addon-armv7      1.0.13    b6d27154faf9   6 seconds ago   614MB
-esim-platform-ha-addon-armv7      latest    b6d27154faf9   6 seconds ago   614MB
-esim-platform-ha-addon-aarch64    1.0.13    de7d7e45ea75   2 minutes ago   614MB
-esim-platform-ha-addon-aarch64    latest    de7d7e45ea75   2 minutes ago   614MB
-esim-platform-ha-addon-amd64      1.0.13    40f3f9a253b8   8 minutes ago   614MB
-esim-platform-ha-addon-amd64      latest    40f3f9a253b8   8 minutes ago   614MB
+$ docker images | grep limelight-eSIM-addon
+limelight-eSIM-addon-armv7      1.0.13    b6d27154faf9   6 seconds ago   614MB
+limelight-eSIM-addon-armv7      latest    b6d27154faf9   6 seconds ago   614MB
+limelight-eSIM-addon-aarch64    1.0.13    de7d7e45ea75   2 minutes ago   614MB
+limelight-eSIM-addon-aarch64    latest    de7d7e45ea75   2 minutes ago   614MB
+limelight-eSIM-addon-amd64      1.0.13    40f3f9a253b8   8 minutes ago   614MB
+limelight-eSIM-addon-amd64      latest    40f3f9a253b8   8 minutes ago   614MB
 ```
 
 ### 🎯 aarch64 平台特点

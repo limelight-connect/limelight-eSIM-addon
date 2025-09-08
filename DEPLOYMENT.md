@@ -36,7 +36,7 @@ ls ../backend ../frontend
 
 ```bash
 # Test the built image
-docker run -d -p 8080:8080 --name test-esim-addon esim-platform-ha-addon-amd64-1.0.13
+docker run -d -p 8080:8080 --name test-esim-addon limelight-eSIM-addon-amd64-1.0.13
 
 # Check if it's running
 docker ps | grep test-esim-addon
@@ -57,7 +57,7 @@ docker stop test-esim-addon && docker rm test-esim-addon
    git init
    git add .
    git commit -m "Initial HA add-on release v1.0.13"
-   git remote add origin https://github.com/limelight-connect/esim-platform-ha-addon.git
+   git remote add origin https://github.com/limelight-connect/limelight-eSIM-addon.git
    git push -u origin main
    ```
 
@@ -68,7 +68,7 @@ docker stop test-esim-addon && docker rm test-esim-addon
 
 3. **Users can install** by adding the repository URL to Home Assistant:
    ```
-   https://github.com/limelight-connect/esim-platform-ha-addon
+   https://github.com/limelight-connect/limelight-eSIM-addon
    ```
 
 ### Option 2: Docker Registry
@@ -76,15 +76,15 @@ docker stop test-esim-addon && docker rm test-esim-addon
 1. **Push images to registry**:
    ```bash
    # Tag for your registry
-   docker tag esim-platform-ha-addon-amd64-1.0.13 limelight-connect/esim-platform-ha-addon-amd64-1.0.13
+   docker tag limelight-eSIM-addon-amd64-1.0.13 limelight-connect/limelight-eSIM-addon-amd64-1.0.13
    
    # Push to registry
-   docker push limelight-connect/esim-platform-ha-addon-amd64-1.0.13
+   docker push limelight-connect/limelight-eSIM-addon-amd64-1.0.13
    ```
 
 2. **Update config.yaml** with registry image names:
    ```yaml
-   image: limelight-connect/esim-platform-ha-addon-{arch}-{version}
+   image: limelight-connect/limelight-eSIM-addon-{arch}-{version}
    ```
 
 ## 🚀 Installation in Home Assistant
@@ -95,7 +95,7 @@ docker stop test-esim-addon && docker rm test-esim-addon
    - Open Home Assistant
    - Go to **Settings** → **Add-ons** → **Add-on Store**
    - Click the three dots menu (⋮) → **Repositories**
-   - Add: `https://github.com/limelight-connect/esim-platform-ha-addon`
+   - Add: `https://github.com/limelight-connect/limelight-eSIM-addon`
 
 2. **Install Add-on**:
    - Find "eSIM Management Platform" in the add-on store

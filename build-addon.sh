@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-ADDON_NAME="esim-platform-ha-addon"
+ADDON_NAME="limelight-eSIM-addon"
 VERSION=${1:-"1.0.13"}
 BUILD_ARCH=${2:-"amd64"}
 

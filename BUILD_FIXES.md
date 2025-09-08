@@ -71,7 +71,7 @@ docker build -f ha-addon/Dockerfile -t image-name .
 $ ./build-addon.sh 1.0.13 amd64
 🏗️  Building Home Assistant Add-on for eSIM Platform
 ================================================
-Add-on Name: esim-platform-ha-addon
+Add-on Name: limelight-eSIM-addon
 Version: 1.0.13
 Architecture: amd64
 
@@ -83,7 +83,7 @@ Architecture: amd64
 
 📁 Changing to parent directory for build context...
 📦 Building Docker image...
-Image: esim-platform-ha-addon-amd64-1.0.13
+Image: limelight-eSIM-addon-amd64-1.0.13
 Build context: /home/limelight/work/ha/esim
 
 [+] Building 241.4s (46/46) FINISHED
@@ -93,9 +93,9 @@ Build context: /home/limelight/work/ha/esim
 ### 构建产物验证
 
 ```bash
-$ docker images | grep esim-platform-ha-addon
-esim-platform-ha-addon-amd64-1.0.13    latest    64397ad15d7b   About a minute ago   614MB
-esim-platform-ha-addon-amd64-latest     latest    64397ad15d7b   About a minute ago   614MB
+$ docker images | grep limelight-eSIM-addon
+limelight-eSIM-addon-amd64-1.0.13    latest    64397ad15d7b   About a minute ago   614MB
+limelight-eSIM-addon-amd64-latest     latest    64397ad15d7b   About a minute ago   614MB
 ```
 
 ## 📋 修复总结
@@ -149,7 +149,7 @@ cd ha-addon
 
 ```bash
 # 测试构建的镜像
-docker run -d -p 8080:8080 --name test-esim-addon esim-platform-ha-addon-amd64-1.0.13
+docker run -d -p 8080:8080 --name test-esim-addon limelight-eSIM-addon-amd64-1.0.13
 
 # 检查健康状态
 curl http://localhost:8080/api/healthz/

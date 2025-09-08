@@ -5,7 +5,7 @@
 ### 1. 创建新仓库
 1. 登录GitHub
 2. 点击 "New repository"
-3. 仓库名称: `esim-platform-ha-addon`
+3. 仓库名称: `limelight-eSIM-addon`
 4. 描述: `Home Assistant Add-on: eSIM Management Platform`
 5. 设置为公开仓库
 6. 不要初始化README（我们已经有了）
@@ -14,7 +14,7 @@
 ### 2. 添加远程仓库
 ```bash
 # 在ha-addon目录中执行
-git remote add origin https://github.com/limelight-connect/esim-platform-ha-addon.git
+git remote add origin https://github.com/limelight-connect/limelight-eSIM-addon.git
 git branch -M main
 git push -u origin main
 ```
@@ -41,7 +41,7 @@ git push origin v1.0.13
 2. 进入 **Settings** → **Add-ons** → **Add-on Store**
 3. 点击右上角的三点菜单 (⋮)
 4. 选择 **Repositories**
-5. 添加仓库URL: `https://github.com/limelight-connect/esim-platform-ha-addon`
+5. 添加仓库URL: `https://github.com/limelight-connect/limelight-eSIM-addon`
 6. 点击 **Add**
 
 ### 安装Add-on
@@ -56,7 +56,7 @@ git push origin v1.0.13
 ## 🔧 仓库结构说明
 
 ```
-esim-platform-ha-addon/
+limelight-eSIM-addon/
 ├── config.json              # HA add-on配置文件
 ├── build.yaml               # 多架构构建配置
 ├── repository.json          # 仓库元数据
@@ -125,8 +125,8 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
-            your-registry/esim-platform-ha-addon:latest
-            your-registry/esim-platform-ha-addon:${{ github.ref_name }}
+            your-registry/limelight-eSIM-addon:latest
+            your-registry/limelight-eSIM-addon:${{ github.ref_name }}
 ```
 
 ## 📞 用户支持
