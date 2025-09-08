@@ -1,6 +1,6 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.0.15",
+  "version": "1.0.20",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
@@ -49,11 +49,7 @@
     "/dev/ttyUSB0",
     "/dev/ttyUSB1", 
     "/dev/ttyUSB2",
-    "/dev/ttyUSB3",
-    "/dev/ttyACM0",
-    "/dev/ttyACM1",
-    "/dev/ttyACM2",
-    "/dev/ttyACM3"
+    "/dev/ttyUSB3"
   ],
   "ports": {
     "8080/tcp": 8080
