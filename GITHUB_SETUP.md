@@ -14,7 +14,7 @@
 ### 2. 添加远程仓库
 ```bash
 # 在ha-addon目录中执行
-git remote add origin https://github.com/your-username/esim-platform-ha-addon.git
+git remote add origin https://github.com/limelight-connect/esim-platform-ha-addon.git
 git branch -M main
 git push -u origin main
 ```
@@ -41,7 +41,7 @@ git push origin v1.0.13
 2. 进入 **Settings** → **Add-ons** → **Add-on Store**
 3. 点击右上角的三点菜单 (⋮)
 4. 选择 **Repositories**
-5. 添加仓库URL: `https://github.com/your-username/esim-platform-ha-addon`
+5. 添加仓库URL: `https://github.com/limelight-connect/esim-platform-ha-addon`
 6. 点击 **Add**
 
 ### 安装Add-on

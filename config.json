@@ -5,7 +5,7 @@
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
   "udev": true,
-  "url": "https://github.com/your-org/esim-platform-ha-addon",
+  "url": "https://github.com/limelight-connect/esim-platform-ha-addon",
   "startup": "application",
   "hassio_api": true,
   "arch": [

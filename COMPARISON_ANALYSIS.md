@@ -164,7 +164,7 @@ export SECRET_KEY=${SECRET_KEY}
   "description": "A comprehensive eSIM management system with unified Docker deployment",
   "uart": true,
   "udev": true,
-  "url": "https://github.com/your-org/esim-platform-ha-addon",
+  "url": "https://github.com/limelight-connect/esim-platform-ha-addon",
   "startup": "application",
   "hassio_api": true,
   "arch": ["aarch64", "amd64", "armhf", "armv7"],
@@ -243,8 +243,8 @@ fi
 ```json
 {
   "name": "Home Assistant Add-on: eSIM Management Platform",
-  "url": "https://github.com/your-org/esim-platform-ha-addon",
-  "maintainer": "Your Name <your.email@example.com>"
+  "url": "https://github.com/limelight-connect/esim-platform-ha-addon",
+  "maintainer": "Limelight Connect <support@limelight-connect.com>"
 }
 ```
 

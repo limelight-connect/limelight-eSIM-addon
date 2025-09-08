@@ -63,7 +63,7 @@ ARG VERSION=1.0.13
 LABEL version=$VERSION
 LABEL maintainer="eSIM Platform Team"
 LABEL description="eSIM Platform - Home Assistant Add-on"
-LABEL org.opencontainers.image.source="https://github.com/your-org/esim-platform"
+LABEL org.opencontainers.image.source="https://github.com/limelight-connect/esim-platform"
 
 # 设置环境变量
 ENV PYTHONDONTWRITEBYTECODE=1
