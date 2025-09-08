@@ -65,7 +65,7 @@ docker build \
     --build-arg VERSION=${VERSION} \
     --tag ${ADDON_NAME}-${BUILD_ARCH}:${VERSION} \
     --tag ${ADDON_NAME}-${BUILD_ARCH}:latest \
-    -f ha-addon/Dockerfile .
+    -f ha-addon/esim-platform/Dockerfile .
 
 if [ $? -eq 0 ]; then
     echo ""
