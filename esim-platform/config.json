@@ -85,5 +85,5 @@
     "max_upload_size": "str",
     "api_timeout": "int"
   },
-  "image": "ghcr.io/limelight-connect/limelight-eSIM-addon-{arch}"
+  "image": "ghcr.io/limelightconnect/esimaddon-{arch}"
 }
