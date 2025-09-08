@@ -144,11 +144,11 @@ RUN mkdir -p /var/log/supervisor /var/run/nginx
 RUN mkdir -p /data /config /ssl /addons /share /media /backup
 
 # 暴露端口
-EXPOSE 8080
+EXPOSE 80
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/api/healthz/ || exit 1
+    CMD curl -f http://localhost/api/healthz/ || exit 1
 
 # 设置entrypoint和启动服务
 ENTRYPOINT ["/entrypoint.sh"]
