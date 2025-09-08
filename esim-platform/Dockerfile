@@ -15,6 +15,15 @@ RUN npm ci --only=production
 # 复制前端源代码
 COPY frontend/ .
 
+# 设置构建时环境变量
+ARG NEXT_PUBLIC_BASE_PATH
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_DEV_API_URL
+ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_DEV_API_URL=$NEXT_PUBLIC_DEV_API_URL
+ENV NODE_ENV=production
+
 # 构建前端应用
 RUN npm run build
 
@@ -69,6 +78,11 @@ LABEL org.opencontainers.image.source="https://github.com/limelight-connect/esim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV NODE_ENV=production
+
+# 前端环境变量（支持Home Assistant Add-on Ingress）
+ENV NEXT_PUBLIC_BASE_PATH=""
+ENV NEXT_PUBLIC_API_URL=""
+ENV NEXT_PUBLIC_DEV_API_URL=""
 
 # HA Add-on 配置环境变量
 ENV LOG_LEVEL=INFO

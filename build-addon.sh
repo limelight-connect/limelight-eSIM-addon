@@ -63,6 +63,9 @@ echo ""
 docker build \
     --build-arg BUILD_ARCH=${BUILD_ARCH} \
     --build-arg VERSION=${VERSION} \
+    --build-arg NEXT_PUBLIC_BASE_PATH="" \
+    --build-arg NEXT_PUBLIC_API_URL="" \
+    --build-arg NEXT_PUBLIC_DEV_API_URL="" \
     --tag ${ADDON_NAME}-${BUILD_ARCH}:${VERSION} \
     --tag ${ADDON_NAME}-${BUILD_ARCH}:latest \
     -f ha-addon/esim-platform/Dockerfile .

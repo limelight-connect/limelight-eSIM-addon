@@ -1,6 +1,6 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
@@ -64,7 +64,10 @@
     "serial_device": "/dev/ttyUSB2",
     "data_retention_days": 30,
     "max_upload_size": "50MB",
-    "api_timeout": 300
+    "api_timeout": 300,
+    "next_public_base_path": "",
+    "next_public_api_url": "",
+    "next_public_dev_api_url": ""
   },
   "schema": {
     "log_level": "str",
@@ -76,7 +79,10 @@
     "serial_device": "str",
     "data_retention_days": "int",
     "max_upload_size": "str",
-    "api_timeout": "int"
+    "api_timeout": "int",
+    "next_public_base_path": "str",
+    "next_public_api_url": "str",
+    "next_public_dev_api_url": "str"
   },
   "image": "ghcr.io/limelight-connect/esimaddon-{arch}"
 }
