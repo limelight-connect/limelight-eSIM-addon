@@ -74,92 +74,16 @@
     "api_timeout": 300
   },
   "schema": {
-    "log_level": {
-      "name": "Log Level",
-      "description": "Set the log level for the application",
-      "type": "select",
-      "options": [
-        "debug",
-        "info",
-        "warning",
-        "error"
-      ],
-      "default": "info"
-    },
-    "timezone": {
-      "name": "Timezone",
-      "description": "Set the timezone for the application",
-      "type": "select",
-      "options": [
-        "Asia/Shanghai",
-        "Asia/Tokyo",
-        "Asia/Seoul",
-        "Europe/London",
-        "Europe/Paris",
-        "America/New_York",
-        "America/Los_Angeles",
-        "UTC"
-      ],
-      "default": "Asia/Shanghai"
-    },
-    "secret_key": {
-      "name": "Secret Key",
-      "description": "Django secret key (leave empty for auto-generation)",
-      "type": "password",
-      "default": ""
-    },
-    "debug": {
-      "name": "Debug Mode",
-      "description": "Enable debug mode (not recommended for production)",
-      "type": "boolean",
-      "default": false
-    },
-    "allowed_hosts": {
-      "name": "Allowed Hosts",
-      "description": "Comma-separated list of allowed hosts",
-      "type": "string",
-      "default": "localhost,127.0.0.1,0.0.0.0"
-    },
-    "cors_allowed_origins": {
-      "name": "CORS Allowed Origins",
-      "description": "Comma-separated list of CORS allowed origins",
-      "type": "string",
-      "default": "http://localhost,http://127.0.0.1"
-    },
-    "serial_device": {
-      "name": "Serial Device",
-      "description": "Path to the serial device (e.g., /dev/ttyUSB0)",
-      "type": "string",
-      "default": "/dev/ttyUSB2"
-    },
-    "data_retention_days": {
-      "name": "Data Retention Days",
-      "description": "Number of days to retain log data",
-      "type": "integer",
-      "default": 30,
-      "min": 1,
-      "max": 365
-    },
-    "max_upload_size": {
-      "name": "Max Upload Size",
-      "description": "Maximum file upload size",
-      "type": "select",
-      "options": [
-        "10MB",
-        "25MB",
-        "50MB",
-        "100MB"
-      ],
-      "default": "50MB"
-    },
-    "api_timeout": {
-      "name": "API Timeout",
-      "description": "API request timeout in seconds",
-      "type": "integer",
-      "default": 300,
-      "min": 30,
-      "max": 600
-    }
+    "log_level": "str",
+    "timezone": "str",
+    "secret_key": "str",
+    "debug": "bool",
+    "allowed_hosts": "str",
+    "cors_allowed_origins": "str",
+    "serial_device": "str",
+    "data_retention_days": "int",
+    "max_upload_size": "str",
+    "api_timeout": "int"
   },
-  "image": "limelight-eSIM-addon-{arch}-{version}"
+  "image": "ghcr.io/limelight-connect/limelight-eSIM-addon-{arch}"
 }
