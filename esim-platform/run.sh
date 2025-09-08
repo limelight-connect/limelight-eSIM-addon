@@ -20,9 +20,11 @@ MAX_UPLOAD_SIZE=${MAX_UPLOAD_SIZE:-"50M"}
 API_TIMEOUT=${API_TIMEOUT:-300}
 
 # 前端环境变量（从HA add-on options获取）
-NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-""}
-NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-""}
-NEXT_PUBLIC_DEV_API_URL=${NEXT_PUBLIC_DEV_API_URL:-""}
+# Home Assistant Add-on可能不会自动映射NEXT_PUBLIC_前缀的变量
+# 所以我们需要手动处理这些映射
+NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-${next_public_base_path:-""}}
+NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-${next_public_api_url:-""}}
+NEXT_PUBLIC_DEV_API_URL=${NEXT_PUBLIC_DEV_API_URL:-${next_public_dev_api_url:-""}}
 
 echo "📋 Configuration loaded:"
 echo "  - Log Level: ${LOG_LEVEL}"
@@ -32,6 +34,14 @@ echo "  - Serial Device: ${SERIAL_DEVICE}"
 echo "  - Next.js Base Path: ${NEXT_PUBLIC_BASE_PATH}"
 echo "  - Next.js API URL: ${NEXT_PUBLIC_API_URL}"
 echo "  - Next.js Dev API URL: ${NEXT_PUBLIC_DEV_API_URL}"
+
+echo "🔍 Environment variable mapping debug:"
+echo "  - NEXT_PUBLIC_BASE_PATH from env: ${NEXT_PUBLIC_BASE_PATH}"
+echo "  - next_public_base_path from env: ${next_public_base_path}"
+echo "  - NEXT_PUBLIC_API_URL from env: ${NEXT_PUBLIC_API_URL}"
+echo "  - next_public_api_url from env: ${next_public_api_url}"
+echo "  - NEXT_PUBLIC_DEV_API_URL from env: ${NEXT_PUBLIC_DEV_API_URL}"
+echo "  - next_public_dev_api_url from env: ${next_public_dev_api_url}"
 
 # 设置时区
 if [ -n "${TIMEZONE}" ] && [ "${TIMEZONE}" != "UTC" ]; then
