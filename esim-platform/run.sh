@@ -1,44 +1,46 @@
-#!/usr/bin/env bashio
-# ==============================================================================
-# Home Assistant Add-on: eSIM Management Platform
-# ==============================================================================
+#!/bin/bash
 
-# 设置错误处理
+# eSIM Platform Home Assistant Add-on Startup Script
+# 基于原始entrypoint.sh，但适配HA add-on环境
+
 set -e
 
-# 加载配置
-bashio::log.info "Starting eSIM Management Platform..."
+echo "🚀 Starting eSIM Platform Home Assistant Add-on..."
 
-# 验证必需配置
-bashio::config.require 'serial_device'
+# 从环境变量获取配置（HA会设置这些变量）
+LOG_LEVEL=${LOG_LEVEL:-"INFO"}
+TIMEZONE=${TIMEZONE:-"Asia/Shanghai"}
+SECRET_KEY=${SECRET_KEY:-""}
+DEBUG=${DEBUG:-"False"}
+ALLOWED_HOSTS=${ALLOWED_HOSTS:-"localhost,127.0.0.1,0.0.0.0"}
+CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-"http://localhost,http://127.0.0.1"}
+SERIAL_DEVICE=${SERIAL_DEVICE:-"/dev/ttyUSB0"}
+DATA_RETENTION_DAYS=${DATA_RETENTION_DAYS:-30}
+MAX_UPLOAD_SIZE=${MAX_UPLOAD_SIZE:-"50M"}
+API_TIMEOUT=${API_TIMEOUT:-300}
 
-# 获取配置选项
-LOG_LEVEL=$(bashio::config 'log_level')
-TIMEZONE=$(bashio::config 'timezone')
-SECRET_KEY=$(bashio::config 'secret_key')
-DEBUG=$(bashio::config 'debug')
-ALLOWED_HOSTS=$(bashio::config 'allowed_hosts')
-CORS_ALLOWED_ORIGINS=$(bashio::config 'cors_allowed_origins')
-SERIAL_DEVICE=$(bashio::config 'serial_device')
-DATA_RETENTION_DAYS=$(bashio::config 'data_retention_days')
-MAX_UPLOAD_SIZE=$(bashio::config 'max_upload_size')
-API_TIMEOUT=$(bashio::config 'api_timeout')
+echo "📋 Configuration loaded:"
+echo "  - Log Level: ${LOG_LEVEL}"
+echo "  - Timezone: ${TIMEZONE}"
+echo "  - Debug: ${DEBUG}"
+echo "  - Serial Device: ${SERIAL_DEVICE}"
 
 # 设置时区
-if bashio::config.has_value 'timezone'; then
-    bashio::log.info "Setting timezone to ${TIMEZONE}..."
-    ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
-    echo ${TIMEZONE} > /etc/timezone
-else
-    # 使用HA supervisor的时区设置
-    export TZ="$(bashio::supervisor.timezone)"
-    bashio::log.info "Using Home Assistant timezone: ${TZ}"
+if [ -n "${TIMEZONE}" ] && [ "${TIMEZONE}" != "UTC" ]; then
+    echo "🌍 Setting timezone to ${TIMEZONE}..."
+    if [ -f "/usr/share/zoneinfo/${TIMEZONE}" ]; then
+        ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
+        echo ${TIMEZONE} > /etc/timezone
+    else
+        echo "⚠️  Timezone ${TIMEZONE} not found, using UTC"
+    fi
 fi
 
 # 生成密钥（如果未提供）
 if [ -z "${SECRET_KEY}" ]; then
+    echo "🔑 Generating new secret key..."
     SECRET_KEY=$(python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")
-    bashio::log.info "Generated new secret key"
+    echo "✅ Secret key generated"
 fi
 
 # 设置环境变量
@@ -55,7 +57,7 @@ export MAX_UPLOAD_SIZE=${MAX_UPLOAD_SIZE}
 export API_TIMEOUT=${API_TIMEOUT}
 
 # 创建必要的目录
-bashio::log.info "Creating necessary directories..."
+echo "📁 Creating necessary directories..."
 mkdir -p /data/backend/data
 mkdir -p /data/backend/logs
 mkdir -p /data/backend/staticfiles
@@ -68,79 +70,164 @@ chown -R appuser:appuser /config/esim
 chown -R appuser:appuser /share/esim
 
 # 检查串口设备
-bashio::log.info "Checking serial devices..."
+echo "🔌 Checking serial devices..."
 
 # 列出所有可用的串口设备
 AVAILABLE_DEVICES=$(ls /dev/tty* 2>/dev/null | grep -E "(USB|ACM)" || echo "")
 if [ -n "${AVAILABLE_DEVICES}" ]; then
-    bashio::log.info "Available serial devices:"
+    echo "📱 Available serial devices:"
     for device in ${AVAILABLE_DEVICES}; do
         if [ -e "${device}" ]; then
-            bashio::log.info "  - ${device} ($(ls -la ${device} 2>/dev/null | awk '{print $1, $3, $4}'))"
+            echo "  - ${device} ($(ls -la ${device} 2>/dev/null | awk '{print $1, $3, $4}'))"
         fi
     done
 else
-    bashio::log.warning "No USB/ACM serial devices found"
+    echo "⚠️  No USB/ACM serial devices found"
 fi
 
 # 检查配置的串口设备
 if [ -e "${SERIAL_DEVICE}" ]; then
-    bashio::log.info "Configured serial device ${SERIAL_DEVICE} found"
+    echo "✅ Configured serial device ${SERIAL_DEVICE} found"
     chmod 666 ${SERIAL_DEVICE}
     # 确保设备可访问
     if [ ! -r "${SERIAL_DEVICE}" ] || [ ! -w "${SERIAL_DEVICE}" ]; then
-        bashio::log.warning "Serial device ${SERIAL_DEVICE} permissions may need adjustment"
+        echo "⚠️  Serial device ${SERIAL_DEVICE} permissions may need adjustment"
         # 尝试修复权限
         chmod 666 ${SERIAL_DEVICE} 2>/dev/null || true
     fi
-    bashio::log.info "Serial device ${SERIAL_DEVICE} is ready for use"
+    echo "✅ Serial device ${SERIAL_DEVICE} is ready for use"
 else
-    bashio::log.warning "Configured serial device ${SERIAL_DEVICE} not found"
+    echo "⚠️  Configured serial device ${SERIAL_DEVICE} not found"
     
     # 尝试自动检测常见的eSIM设备
     AUTO_DETECTED=""
     for device in /dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyACM0 /dev/ttyACM1; do
         if [ -e "${device}" ]; then
             AUTO_DETECTED="${device}"
-            bashio::log.info "Auto-detected serial device: ${device}"
+            echo "🔍 Auto-detected serial device: ${device}"
             break
         fi
     done
     
     if [ -n "${AUTO_DETECTED}" ]; then
-        bashio::log.info "Using auto-detected device: ${AUTO_DETECTED}"
+        echo "✅ Using auto-detected device: ${AUTO_DETECTED}"
         export SERIAL_DEVICE="${AUTO_DETECTED}"
         chmod 666 "${AUTO_DETECTED}"
     else
-        bashio::log.warning "No suitable serial device found - continuing without serial device"
-        bashio::log.info "Please check:"
-        bashio::log.info "  1. eSIM module is connected via USB"
-        bashio::log.info "  2. USB device is recognized by the system"
-        bashio::log.info "  3. Update the 'serial_device' configuration if needed"
+        echo "⚠️  No suitable serial device found - continuing without serial device"
+        echo "📋 Please check:"
+        echo "  1. eSIM module is connected via USB"
+        echo "  2. USB device is recognized by the system"
+        echo "  3. Update the 'serial_device' configuration if needed"
     fi
 fi
 
-# 初始化数据库
-bashio::log.info "Initializing database..."
+# 进入后端目录
 cd /app/backend
-python manage.py migrate --noinput
 
-# 收集静态文件
-bashio::log.info "Collecting static files..."
-python manage.py collectstatic --noinput
+# Function to fix database permissions
+fix_database_permissions() {
+    echo "🔧 Fixing database permissions..."
+    
+    # 确保数据目录存在
+    mkdir -p /app/backend/data
+    
+    # 如果数据库文件存在但权限不对，修复权限
+    if [ -f "/app/backend/data/db.sqlite3" ]; then
+        echo "📁 Found existing database, fixing permissions..."
+        chown -R appuser:appuser /app/backend/data
+        chmod -R 755 /app/backend/data
+    fi
+}
 
-# 创建超级用户（如果不存在）
-bashio::log.info "Creating superuser if not exists..."
-python manage.py shell << EOF
+# 检查数据库是否就绪
+check_database_readiness() {
+    echo "⏳ Checking database readiness..."
+    
+    # 确保数据目录存在
+    mkdir -p /app/backend/data
+    
+    # 检查数据库文件是否存在
+    if [ ! -f "/app/backend/data/db.sqlite3" ]; then
+        echo "📊 Database file not found, will be created during migration"
+    else
+        echo "✅ Database file exists"
+    fi
+    
+    echo "✅ Database is ready!"
+}
+
+# 执行数据库迁移
+run_migrations() {
+    echo "🔍 Checking for pending migrations..."
+    echo "📦 Applying pending migrations..."
+    
+    # 运行迁移
+    python manage.py migrate --noinput
+    
+    echo "✅ Migrations applied successfully!"
+}
+
+# 创建超级用户
+create_superuser() {
+    echo "👤 Checking for superuser..."
+    
+    # 检查是否已存在超级用户
+    if python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); print('exists' if User.objects.filter(is_superuser=True).exists() else 'not_exists')" | grep -q "exists"; then
+        echo "✅ Superuser already exists"
+    else
+        echo "🔧 Creating default superuser..."
+        python manage.py shell -c "
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@example.com', 'admin')
-    print('Superuser created: admin/admin')
+    User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
+    print('Superuser created: admin/admin123')
 else:
     print('Superuser already exists')
-EOF
+"
+    fi
+}
+
+# 收集静态文件
+collect_static_files() {
+    echo "📁 Collecting static files..."
+    python manage.py collectstatic --noinput
+    echo "✅ Static files collected!"
+}
+
+# 修复日志文件权限
+fix_log_permissions() {
+    echo "🔧 Fixing log file permissions before Django starts..."
+    mkdir -p /app/backend/logs
+    chown -R appuser:appuser /app/backend/logs
+    chmod -R 755 /app/backend/logs
+    echo "✅ Log file permissions fixed!"
+}
+
+# 执行初始化步骤
+echo "🎯 Starting initialization process..."
+
+# 修复数据库权限
+fix_database_permissions
+
+# 检查数据库就绪状态
+check_database_readiness
+
+# 运行数据库迁移
+run_migrations
+
+# 创建超级用户
+create_superuser
+
+# 收集静态文件
+collect_static_files
+
+# 修复日志文件权限
+fix_log_permissions
+
+echo "🎉 Initialization completed! Starting application..."
 
 # 启动服务
-bashio::log.info "Starting services..."
+echo "🚀 Starting services..."
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
