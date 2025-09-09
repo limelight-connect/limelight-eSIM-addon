@@ -5,6 +5,8 @@
 
 set -e
 
+cd "`dirname $0`"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -14,8 +16,44 @@ NC='\033[0m' # No Color
 
 # Configuration
 ADDON_NAME="limelight-esim-addon"
-VERSION=${1:-"1.0.13"}
+# Determine VERSION:
+# 1) use CLI arg if provided; otherwise 2) read from esim-platform/config.json "version"
+if [ -n "${1}" ]; then
+    VERSION="${1}"
+else
+    CONFIG_JSON="esim-platform/config.json"
+    if [ ! -f "${CONFIG_JSON}" ]; then
+        echo -e "${RED}❌ Error: ${CONFIG_JSON} not found. Cannot auto-detect version.${NC}"
+        exit 1
+    fi
+    if command -v jq >/dev/null 2>&1; then
+        VERSION="$(jq -r '.version // empty' "${CONFIG_JSON}")"
+    else
+        # Fallback without jq
+        VERSION="$(grep -oE '\"version\"[[:space:]]*:[[:space:]]*\"[^\"]+\"' "${CONFIG_JSON}" | head -n1 | sed -E 's/.*\"version\"[[:space:]]*:[[:space:]]*\"([^\"]+)\"/\\1/')"
+    fi
+    if [ -z "${VERSION}" ]; then
+        echo -e "${RED}❌ Error: Could not determine version from ${CONFIG_JSON}.${NC}"
+        exit 1
+    fi
+fi
 BUILD_ARCH=${2:-"amd64"}
+
+# Prevent building if the same version image already exists locally
+# Check both the local build tag and the GHCR-tagged variant.
+EXISTING_IMAGES=0
+if docker image inspect "${ADDON_NAME}-${BUILD_ARCH}:${VERSION}" >/dev/null 2>&1; then
+    echo -e "${RED}❌ Error: Image already exists: ${ADDON_NAME}-${BUILD_ARCH}:${VERSION}${NC}"
+    EXISTING_IMAGES=1
+fi
+if docker image inspect "ghcr.io/limelight-connect/esimaddon-${BUILD_ARCH}:${VERSION}" >/dev/null 2>&1; then
+    echo -e "${RED}❌ Error: Image already exists: ghcr.io/limelight-connect/esimaddon-${BUILD_ARCH}:${VERSION}${NC}"
+    EXISTING_IMAGES=1
+fi
+if [ "${EXISTING_IMAGES}" -ne 0 ]; then
+    echo -e "${YELLOW}ℹ️  Tip: bump the version or remove the existing image(s) before building.${NC}"
+    exit 1
+fi
 
 echo -e "${BLUE}🏗️  Building Home Assistant Add-on for eSIM Platform${NC}"
 echo -e "${BLUE}================================================${NC}"
