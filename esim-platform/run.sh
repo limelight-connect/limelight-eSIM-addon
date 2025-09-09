@@ -24,6 +24,15 @@ WEB_AUTH_ENABLED=${WEB_AUTH_ENABLED:-"false"}
 WEB_AUTH_USERNAME=${WEB_AUTH_USERNAME:-"admin"}
 WEB_AUTH_PASSWORD=${WEB_AUTH_PASSWORD:-""}
 
+# 尝试从HA配置文件中读取认证配置
+if [ -f "/data/options.json" ]; then
+    echo "📋 Reading authentication config from /data/options.json..."
+    WEB_AUTH_ENABLED=$(jq -r '.web_auth_enabled // false' /data/options.json)
+    WEB_AUTH_USERNAME=$(jq -r '.web_auth_username // "admin"' /data/options.json)
+    WEB_AUTH_PASSWORD=$(jq -r '.web_auth_password // ""' /data/options.json)
+    echo "✅ Config loaded from options.json: enabled=$WEB_AUTH_ENABLED, username=$WEB_AUTH_USERNAME"
+fi
+
 # 前端环境变量（从HA add-on options获取）
 # Home Assistant Add-on可能不会自动映射NEXT_PUBLIC_前缀的变量
 # 所以我们需要手动处理这些映射
@@ -204,6 +213,8 @@ configure_web_auth() {
     echo "DEBUG: WEB_AUTH_ENABLED=$WEB_AUTH_ENABLED"
     echo "DEBUG: WEB_AUTH_USERNAME=$WEB_AUTH_USERNAME"
     echo "DEBUG: WEB_AUTH_PASSWORD=$WEB_AUTH_PASSWORD"
+    echo "DEBUG: All environment variables containing 'AUTH':"
+    env | grep -i auth || echo "No AUTH variables found"
     
     if [ "$WEB_AUTH_ENABLED" = "true" ] && [ -n "$WEB_AUTH_PASSWORD" ]; then
         echo "✅ Web authentication enabled"
