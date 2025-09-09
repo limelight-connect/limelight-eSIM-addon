@@ -7,6 +7,40 @@ set -e
 
 echo "🚀 Starting eSIM Platform Home Assistant Add-on..."
 
+# ==================== 数据持久化设置 ====================
+echo "📁 Setting up persistent data directories..."
+
+# 1) 准备持久化目录
+mkdir -p /data/esim/{db,logs,staticfiles,files,secrets}
+echo "✅ Created persistent directories in /data/esim/"
+
+# 2) 从历史位置迁移一次老数据到 /data（如果存在）
+if [ -d "/app/backend/data" ] && [ ! -e "/data/esim/.migrated" ]; then
+    echo "🔄 Migrating existing data from /app/backend/data -> /data/esim ..."
+    cp -a /app/backend/data/* /data/esim/ 2>/dev/null || true
+    touch /data/esim/.migrated
+    echo "✅ Data migration completed"
+fi
+
+# 3) 权限设置（确保appuser可以访问）
+chown -R appuser:appuser /data/esim 2>/dev/null || true
+
+# 4) 导出持久化路径环境变量
+export ESIM_DATA_DIR=/data/esim
+export ESIM_DB_PATH=/data/esim/db/esim.sqlite3
+export ESIM_LOG_DIR=/data/esim/logs
+export ESIM_STATIC_DIR=/data/esim/staticfiles
+export ESIM_FILES_DIR=/data/esim/files
+export ESIM_SECRETS_DIR=/data/esim/secrets
+
+echo "✅ Persistent data setup completed"
+echo "📂 Data directories:"
+echo "  - Database: $ESIM_DB_PATH"
+echo "  - Logs: $ESIM_LOG_DIR"
+echo "  - Static files: $ESIM_STATIC_DIR"
+echo "  - User files: $ESIM_FILES_DIR"
+echo "  - Secrets: $ESIM_SECRETS_DIR"
+
 # 从环境变量获取配置（HA会设置这些变量）
 LOG_LEVEL=${LOG_LEVEL:-"INFO"}
 TIMEZONE=${TIMEZONE:-"Asia/Shanghai"}
