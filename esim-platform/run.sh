@@ -19,6 +19,11 @@ DATA_RETENTION_DAYS=${DATA_RETENTION_DAYS:-30}
 MAX_UPLOAD_SIZE=${MAX_UPLOAD_SIZE:-"50M"}
 API_TIMEOUT=${API_TIMEOUT:-300}
 
+# Web认证配置
+WEB_AUTH_ENABLED=${WEB_AUTH_ENABLED:-"false"}
+WEB_AUTH_USERNAME=${WEB_AUTH_USERNAME:-"admin"}
+WEB_AUTH_PASSWORD=${WEB_AUTH_PASSWORD:-""}
+
 # 前端环境变量（从HA add-on options获取）
 # Home Assistant Add-on可能不会自动映射NEXT_PUBLIC_前缀的变量
 # 所以我们需要手动处理这些映射
@@ -193,6 +198,35 @@ run_migrations() {
     echo "✅ Migrations applied successfully!"
 }
 
+# 配置Web认证
+configure_web_auth() {
+    echo "🔐 Configuring web authentication..."
+    
+    if [ "$WEB_AUTH_ENABLED" = "true" ] && [ -n "$WEB_AUTH_PASSWORD" ]; then
+        echo "✅ Web authentication enabled"
+        echo "📝 Generating .htpasswd file..."
+        
+        # 使用htpasswd生成认证文件
+        htpasswd -cb /etc/nginx/.htpasswd "$WEB_AUTH_USERNAME" "$WEB_AUTH_PASSWORD"
+        
+        echo "✅ Authentication file created for user: $WEB_AUTH_USERNAME"
+        
+        # 启用nginx认证
+        sed -i 's/# auth_basic/auth_basic/g' /etc/nginx/sites-available/default
+        sed -i 's/# auth_basic_user_file/auth_basic_user_file/g' /etc/nginx/sites-available/default
+    else
+        echo "⚠️  Web authentication disabled or no password provided"
+        echo "📝 Creating empty .htpasswd file..."
+        
+        # 创建空的认证文件
+        touch /etc/nginx/.htpasswd
+        
+        # 禁用nginx认证
+        sed -i 's/^[[:space:]]*auth_basic/# auth_basic/g' /etc/nginx/sites-available/default
+        sed -i 's/^[[:space:]]*auth_basic_user_file/# auth_basic_user_file/g' /etc/nginx/sites-available/default
+    fi
+}
+
 # 创建超级用户
 create_superuser() {
     echo "👤 Checking for superuser..."
@@ -252,6 +286,9 @@ collect_static_files
 fix_log_permissions
 
 echo "🎉 Initialization completed! Starting application..."
+
+# 配置Web认证
+configure_web_auth
 
 # 启动服务
 echo "🚀 Starting services..."

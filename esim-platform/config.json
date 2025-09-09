@@ -72,7 +72,10 @@
     "api_timeout": 300,
     "next_public_base_path": "",
     "next_public_api_url": "",
-    "next_public_dev_api_url": ""
+    "next_public_dev_api_url": "",
+    "web_auth_enabled": false,
+    "web_auth_username": "admin",
+    "web_auth_password": ""
   },
   "schema": {
     "log_level": "str",
@@ -87,7 +90,10 @@
     "api_timeout": "int",
     "next_public_base_path": "str",
     "next_public_api_url": "str",
-    "next_public_dev_api_url": "str"
+    "next_public_dev_api_url": "str",
+    "web_auth_enabled": "bool",
+    "web_auth_username": "str",
+    "web_auth_password": "str"
   },
   "image": "ghcr.io/limelight-connect/esimaddon-{arch}"
 }
