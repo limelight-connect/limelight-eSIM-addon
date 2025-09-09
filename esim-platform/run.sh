@@ -201,6 +201,9 @@ run_migrations() {
 # 配置Web认证
 configure_web_auth() {
     echo "🔐 Configuring web authentication..."
+    echo "DEBUG: WEB_AUTH_ENABLED=$WEB_AUTH_ENABLED"
+    echo "DEBUG: WEB_AUTH_USERNAME=$WEB_AUTH_USERNAME"
+    echo "DEBUG: WEB_AUTH_PASSWORD=$WEB_AUTH_PASSWORD"
     
     if [ "$WEB_AUTH_ENABLED" = "true" ] && [ -n "$WEB_AUTH_PASSWORD" ]; then
         echo "✅ Web authentication enabled"
