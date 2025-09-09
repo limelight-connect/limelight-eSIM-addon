@@ -107,6 +107,8 @@ RUN apt-get update \
         npm \
         procps \
         net-tools \
+        jq \
+        apache2-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # 创建工作目录
