@@ -80,7 +80,7 @@ if [ $? -eq 0 ]; then
     echo ""
     echo -e "${BLUE}🚀 Next Steps:${NC}"
     echo -e "1. Test the image locally:"
-    echo -e "   ${YELLOW}docker run -d -p 8080:8080 --name test-${ADDON_NAME} ${ADDON_NAME}-${BUILD_ARCH}:${VERSION}${NC}"
+    echo -e "   ${YELLOW}docker run -d -p 8080:80 --name test-${ADDON_NAME} ${ADDON_NAME}-${BUILD_ARCH}:${VERSION}${NC}"
     echo ""
     echo -e "2. Push to registry (if needed):"
     echo -e "   ${YELLOW}docker tag ${ADDON_NAME}-${BUILD_ARCH}:${VERSION} limelight-connect/${ADDON_NAME}-${BUILD_ARCH}:${VERSION}${NC}"
@@ -99,3 +99,12 @@ fi
 cd ha-addon
 
 echo -e "${GREEN}🎉 Build process completed!${NC}"
+
+
+docker tag limelight-esim-addon-amd64:${VERSION} ghcr.io/limelight-connect/esimaddon-amd64:${VERSION} && \
+docker tag limelight-esim-addon-amd64:${VERSION} ghcr.io/limelight-connect/esimaddon-amd64:latest && \
+docker push ghcr.io/limelight-connect/esimaddon-amd64:${VERSION} && \
+docker push ghcr.io/limelight-connect/esimaddon-amd64:latest && \
+git add . && \
+git commit -m "Update to version ${VERSION}" && \
+git push
