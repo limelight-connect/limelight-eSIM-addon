@@ -107,4 +107,4 @@ docker push ghcr.io/limelight-connect/esimaddon-amd64:${VERSION} && \
 docker push ghcr.io/limelight-connect/esimaddon-amd64:latest && \
 git add . && \
 git commit -m "Update to version ${VERSION}" && \
-git push
+git push origin main
