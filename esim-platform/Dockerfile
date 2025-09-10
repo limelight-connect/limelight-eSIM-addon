@@ -109,6 +109,8 @@ RUN apt-get update \
         net-tools \
         jq \
         apache2-utils \
+        libqmi-utils \
+        udhcpc \
     && rm -rf /var/lib/apt/lists/*
 
 # 创建工作目录
