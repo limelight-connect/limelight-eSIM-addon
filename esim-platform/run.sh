@@ -22,8 +22,8 @@ if [ -d "/app/backend/data" ] && [ ! -e "/data/esim/.migrated" ]; then
     echo "✅ Data migration completed"
 fi
 
-# 3) 权限设置（确保appuser可以访问）
-chown -R appuser:appuser /data/esim 2>/dev/null || true
+# 3) 权限设置（root用户运行，确保目录可访问）
+chmod -R 755 /data/esim 2>/dev/null || true
 
 # 4) 导出持久化路径环境变量
 export ESIM_DATA_DIR=/data/esim
@@ -135,10 +135,10 @@ mkdir -p /data/backend/staticfiles
 mkdir -p /config/esim
 mkdir -p /share/esim
 
-# 设置权限
-chown -R appuser:appuser /data
-chown -R appuser:appuser /config/esim
-chown -R appuser:appuser /share/esim
+# 设置权限（root用户运行）
+chmod -R 755 /data
+chmod -R 755 /config/esim
+chmod -R 755 /share/esim
 
 # 检查串口设备
 echo "🔌 Checking serial devices..."
@@ -208,7 +208,6 @@ fix_database_permissions() {
     # 如果数据库文件存在但权限不对，修复权限
     if [ -f "/app/backend/data/db.sqlite3" ]; then
         echo "📁 Found existing database, fixing permissions..."
-        chown -R appuser:appuser /app/backend/data
         chmod -R 755 /app/backend/data
     fi
 }
@@ -307,7 +306,6 @@ collect_static_files() {
 fix_log_permissions() {
     echo "🔧 Fixing log file permissions before Django starts..."
     mkdir -p /app/backend/logs
-    chown -R appuser:appuser /app/backend/logs
     chmod -R 755 /app/backend/logs
     echo "✅ Log file permissions fixed!"
 }

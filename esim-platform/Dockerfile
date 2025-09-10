@@ -143,14 +143,9 @@ COPY ha-addon/esim-platform/run.sh /run.sh
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /run.sh /entrypoint.sh
 
-# 创建非root用户并添加到dialout组以访问串口设备
-RUN adduser --disabled-password --gecos '' appuser
-RUN usermod -a -G dialout appuser
-RUN usermod -a -G tty appuser
-RUN chown -R appuser:appuser /app
-RUN chown -R appuser:appuser /var/log/nginx
-RUN chown -R appuser:appuser /var/lib/nginx
-RUN chown -R appuser:appuser /run
+# 使用root用户运行所有服务
+# 注意：在HA add-on环境中，容器以root权限运行是安全的
+# 因为HA Supervisor会管理容器的安全边界
 
 # 注意：串口设备目录在运行时由HA supervisor创建和挂载
 
