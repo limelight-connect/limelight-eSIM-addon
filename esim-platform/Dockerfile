@@ -155,12 +155,12 @@ RUN mkdir -p /var/log/supervisor /var/run/nginx
 # 创建HA add-on特定的目录结构
 RUN mkdir -p /data /config /ssl /addons /share /media /backup
 
-# 暴露端口
-EXPOSE 80
+# 暴露端口（host网络模式下直接使用宿主机端口）
+EXPOSE 8080
 
-# 健康检查
+# 健康检查（host网络模式下检查8080端口）
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost/api/healthz/ || exit 1
+    CMD curl -f http://localhost:8080/api/healthz/ || exit 1
 
 # 设置entrypoint和启动服务
 ENTRYPOINT ["/entrypoint.sh"]
