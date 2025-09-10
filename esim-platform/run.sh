@@ -140,38 +140,17 @@ chmod -R 755 /data
 chmod -R 755 /config/esim
 chmod -R 755 /share/esim
 
-# 检查串口设备
+# 检查串口设备（最小化干扰）
 echo "🔌 Checking serial devices..."
 
-# 列出所有可用的串口设备
-AVAILABLE_DEVICES=$(ls /dev/tty* 2>/dev/null | grep -E "(USB|ACM)" || echo "")
-if [ -n "${AVAILABLE_DEVICES}" ]; then
-    echo "📱 Available serial devices:"
-    for device in ${AVAILABLE_DEVICES}; do
-        if [ -e "${device}" ]; then
-            echo "  - ${device} ($(ls -la ${device} 2>/dev/null | awk '{print $1, $3, $4}'))"
-        fi
-    done
-else
-    echo "⚠️  No USB/ACM serial devices found"
-fi
-
-# 检查配置的串口设备
+# 简单检查配置的串口设备是否存在
 if [ -e "${SERIAL_DEVICE}" ]; then
     echo "✅ Configured serial device ${SERIAL_DEVICE} found"
-    # 在HA add-on环境中，设备权限由supervisor管理，不需要手动修改
-    # 检查设备是否可访问
-    if [ ! -r "${SERIAL_DEVICE}" ] || [ ! -w "${SERIAL_DEVICE}" ]; then
-        echo "⚠️  Serial device ${SERIAL_DEVICE} may not be accessible"
-        echo "📋 Device permissions: $(ls -la ${SERIAL_DEVICE} 2>/dev/null || echo 'Unable to read')"
-    else
-        echo "✅ Serial device ${SERIAL_DEVICE} is accessible"
-    fi
     echo "✅ Serial device ${SERIAL_DEVICE} is ready for use"
 else
     echo "⚠️  Configured serial device ${SERIAL_DEVICE} not found"
     
-    # 尝试自动检测常见的eSIM设备
+    # 尝试自动检测常见的eSIM设备（仅检查存在性，不读取权限）
     AUTO_DETECTED=""
     for device in /dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyACM0 /dev/ttyACM1; do
         if [ -e "${device}" ]; then
@@ -184,8 +163,6 @@ else
     if [ -n "${AUTO_DETECTED}" ]; then
         echo "✅ Using auto-detected device: ${AUTO_DETECTED}"
         export SERIAL_DEVICE="${AUTO_DETECTED}"
-        # 在HA add-on环境中，设备权限由supervisor管理
-        echo "📋 Auto-detected device permissions: $(ls -la ${AUTO_DETECTED} 2>/dev/null || echo 'Unable to read')"
     else
         echo "⚠️  No suitable serial device found - continuing without serial device"
         echo "📋 Please check:"

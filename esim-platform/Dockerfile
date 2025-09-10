@@ -111,6 +111,7 @@ RUN apt-get update \
         apache2-utils \
         libqmi-utils \
         udhcpc \
+        minicom \
     && rm -rf /var/lib/apt/lists/*
 
 # 创建工作目录
