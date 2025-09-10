@@ -1,11 +1,14 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
   "udev": false,
-  "privileged": true,
+  "privileged": [
+    "NET_ADMIN",
+    "SYS_ADMIN"
+  ],
   "url": "https://github.com/limelight-connect/limelight-eSIM-addon",
   "startup": "application",
   "hassio_api": true,
