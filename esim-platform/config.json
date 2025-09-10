@@ -18,7 +18,7 @@
   "init": false,
   "ingress": false,
   "host_network": true,
-  "webui": "http://[HOST]:8080/",
+  "webui": "https://[HOST]:[PORT:443]/esim/",
   "timeout": 30,
   "panel_icon": "mdi:sim",
   "panel_title": "eSIM Platform",
