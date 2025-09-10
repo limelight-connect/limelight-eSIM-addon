@@ -142,8 +142,7 @@ COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 复制HA add-on特定的启动脚本
 COPY ha-addon/esim-platform/run.sh /run.sh
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /run.sh /entrypoint.sh
+RUN chmod +x /run.sh
 
 # 使用root用户运行所有服务
 # 注意：在HA add-on环境中，容器以root权限运行是安全的
@@ -165,5 +164,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8080/api/healthz/ || exit 1
 
 # 设置entrypoint和启动服务
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/run.sh"]
+ENTRYPOINT ["/run.sh"]
