@@ -75,7 +75,7 @@ if ! docker info > /dev/null 2>&1; then
 fi
 
 # Check if backend and frontend directories exist
-if [ ! -d "../backend" ] || [ ! -d "../frontend" ]; then
+if [ ! -d "./backend" ] || [ ! -d "./frontend" ]; then
     echo -e "${RED}❌ Error: backend/ and frontend/ directories not found.${NC}"
     exit 1
 fi
@@ -87,8 +87,6 @@ echo -e "✅ backend/ directory found"
 echo -e "✅ frontend/ directory found"
 echo ""
 
-# Change to parent directory for build context
-echo -e "${YELLOW}📁 Changing to parent directory for build context...${NC}"
 
 echo -e "${YELLOW}📦 Building Docker image...${NC}"
 echo -e "Image: ${GREEN}${ADDON_NAME}-${BUILD_ARCH}-${VERSION}${NC}"
