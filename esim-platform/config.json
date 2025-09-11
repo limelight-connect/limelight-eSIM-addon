@@ -1,6 +1,6 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.1.15",
+  "version": "1.1.16",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
