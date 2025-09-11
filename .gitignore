@@ -79,3 +79,5 @@ out/
 # Package files
 *.tgz
 *.tar
+/backend/
+/frontend/
