@@ -1,10 +1,10 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
-  "udev": false,
+  "udev": true,
   "privileged": [
     "NET_ADMIN",
     "SYS_ADMIN"
@@ -20,9 +20,10 @@
   ],
   "boot": "auto",
   "init": false,
-  "ingress": false,
+  "ingress": true,
+  "ingress_port": 8080,
+  "ingress_entry": "/",
   "host_network": true,
-  "webui": "https://[HOST]:[PORT:443]/esim/",
   "timeout": 30,
   "panel_icon": "mdi:sim",
   "panel_title": "eSIM Platform",
