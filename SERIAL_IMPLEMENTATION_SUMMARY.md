@@ -10,10 +10,10 @@
   "uart": true,           // 启用串口支持
   "udev": true,           // 启用udev设备管理
   "devices": [            // 预定义的串口设备列表
-    "/dev/ttyUSB0",
-    "/dev/ttyUSB1", 
-    "/dev/ttyUSB2",
-    "/dev/ttyUSB3",
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0",
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0", 
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0",
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0",
     "/dev/ttyACM0",
     "/dev/ttyACM1",
     "/dev/ttyACM2",
@@ -34,7 +34,7 @@ if [ -e "${SERIAL_DEVICE}" ]; then
     # 配置的设备存在，设置权限
 else
     # 自动检测第一个可用设备
-    for device in /dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyACM0 /dev/ttyACM1; do
+    for device in /dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0 /dev/ttyACM0 /dev/ttyACM1; do
         if [ -e "${device}" ]; then
             AUTO_DETECTED="${device}"
             break
@@ -98,7 +98,7 @@ if [ -e "${SERIAL_DEVICE}" ]; then
     # 使用配置的设备
 else
     # 自动检测可用设备
-    for device in /dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyACM0 /dev/ttyACM1; do
+    for device in /dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0 /dev/ttyACM0 /dev/ttyACM1; do
         if [ -e "${device}" ]; then
             # 找到第一个可用设备
             break
@@ -122,8 +122,8 @@ fi
 ## 📊 支持的设备类型
 
 ### 1. USB 串口设备 (ttyUSB*)
-- **Quectel EG25-G**: 通常映射到 `/dev/ttyUSB2`
-- **Quectel EC25**: 通常映射到 `/dev/ttyUSB0` 或 `/dev/ttyUSB1`
+- **Quectel EG25-G**: 通常映射到 `/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0`
+- **Quectel EC25**: 通常映射到 `/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0` 或 `/dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0`
 - **其他USB转串口设备**: 根据连接顺序映射
 
 ### 2. USB CDC 设备 (ttyACM*)
@@ -135,8 +135,8 @@ fi
 ```bash
 # 启动时会显示所有可用设备
 bashio::log.info "Available serial devices:"
-bashio::log.info "  - /dev/ttyUSB0 (crw-rw-rw- root dialout)"
-bashio::log.info "  - /dev/ttyUSB1 (crw-rw-rw- root dialout)"
+bashio::log.info "  - /dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0 (crw-rw-rw- root dialout)"
+bashio::log.info "  - /dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0 (crw-rw-rw- root dialout)"
 ```
 
 ## 🚀 使用方式
@@ -144,7 +144,7 @@ bashio::log.info "  - /dev/ttyUSB1 (crw-rw-rw- root dialout)"
 ### 1. 用户配置
 ```yaml
 # 在HA add-on配置中设置
-serial_device: "/dev/ttyUSB2"  # 指定具体的串口设备
+serial_device: "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0"  # 指定具体的串口设备
 ```
 
 ### 2. 自动检测
@@ -157,7 +157,7 @@ serial_device: "/dev/ttyUSB2"  # 指定具体的串口设备
 ```bash
 # 在容器内验证设备访问
 ls -la /dev/ttyUSB*
-cat /dev/ttyUSB2  # 测试读取（需要设备响应）
+cat /dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0  # 测试读取（需要设备响应）
 ```
 
 ## 🔍 故障排除
@@ -166,7 +166,7 @@ cat /dev/ttyUSB2  # 测试读取（需要设备响应）
 ```bash
 # 检查日志中的设备列表
 bashio::log.info "Available serial devices:"
-bashio::log.info "  - /dev/ttyUSB0 (crw-rw-rw- root dialout)"
+bashio::log.info "  - /dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0 (crw-rw-rw- root dialout)"
 ```
 
 ### 2. 权限问题

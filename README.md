@@ -68,7 +68,7 @@ A comprehensive eSIM management system designed to run as a Home Assistant add-o
 
 | Option | Description | Default | Required |
 |--------|-------------|---------|----------|
-| **Serial Device** | Path to serial device | `/dev/ttyUSB2` | Yes |
+| **Serial Device** | Path to serial device | `/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0` | Yes |
 | **Data Retention Days** | Log data retention period | `30` | No |
 | **Max Upload Size** | Maximum file upload size | `50MB` | No |
 | **API Timeout** | API request timeout (seconds) | `300` | No |
@@ -82,7 +82,7 @@ debug: false
 secret_key: ""
 allowed_hosts: "localhost,127.0.0.1,0.0.0.0"
 cors_allowed_origins: "http://localhost,http://127.0.0.1"
-serial_device: "/dev/ttyUSB0"
+serial_device: "/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0"
 data_retention_days: 30
 max_upload_size: "50MB"
 api_timeout: 300

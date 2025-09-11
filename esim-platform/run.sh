@@ -48,7 +48,7 @@ SECRET_KEY=${SECRET_KEY:-""}
 DEBUG=${DEBUG:-"False"}
 ALLOWED_HOSTS=${ALLOWED_HOSTS:-"localhost,127.0.0.1,0.0.0.0"}
 CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-"http://localhost,http://127.0.0.1"}
-SERIAL_DEVICE=${SERIAL_DEVICE:-"/dev/ttyUSB2"}
+SERIAL_DEVICE=${SERIAL_DEVICE:-"/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0"}
 DATA_RETENTION_DAYS=${DATA_RETENTION_DAYS:-30}
 MAX_UPLOAD_SIZE=${MAX_UPLOAD_SIZE:-"50M"}
 API_TIMEOUT=${API_TIMEOUT:-300}
@@ -152,7 +152,7 @@ else
     
     # 尝试自动检测常见的eSIM设备（仅检查存在性，不读取权限）
     AUTO_DETECTED=""
-    for device in /dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyACM0 /dev/ttyACM1; do
+    for device in /dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0 /dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0 /dev/ttyACM0 /dev/ttyACM1; do
         if [ -e "${device}" ]; then
             AUTO_DETECTED="${device}"
             echo "🔍 Auto-detected serial device: ${device}"

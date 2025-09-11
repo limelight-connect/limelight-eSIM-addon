@@ -12,10 +12,10 @@
   "uart": true,           // 启用串口支持
   "udev": true,           // 启用udev设备管理
   "devices": [            // 预定义的串口设备列表
-    "/dev/ttyUSB0",
-    "/dev/ttyUSB1", 
-    "/dev/ttyUSB2",
-    "/dev/ttyUSB3",
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0",
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0", 
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0",
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0",
     "/dev/ttyACM0",
     "/dev/ttyACM1",
     "/dev/ttyACM2",
@@ -27,8 +27,8 @@
 ### 2. 支持的设备类型
 
 #### USB 串口设备 (ttyUSB*)
-- **Quectel EG25-G**: 通常映射到 `/dev/ttyUSB2`
-- **Quectel EC25**: 通常映射到 `/dev/ttyUSB0` 或 `/dev/ttyUSB1`
+- **Quectel EG25-G**: 通常映射到 `/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0`
+- **Quectel EC25**: 通常映射到 `/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0` 或 `/dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0`
 - **其他USB转串口设备**: 根据连接顺序映射到不同端口
 
 #### USB CDC 设备 (ttyACM*)
@@ -70,7 +70,7 @@ chmod 666 /dev/ttyACM*             # 读写权限
 #### 用户配置
 ```yaml
 # 在 add-on 配置中设置
-serial_device: "/dev/ttyUSB2"  # 指定具体的串口设备
+serial_device: "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0"  # 指定具体的串口设备
 ```
 
 #### 自动检测
@@ -85,8 +85,8 @@ serial_device: "/dev/ttyUSB2"  # 指定具体的串口设备
 ```bash
 # 检查日志中的设备列表
 bashio::log.info "Available serial devices:"
-bashio::log.info "  - /dev/ttyUSB0 (crw-rw-rw- root dialout)"
-bashio::log.info "  - /dev/ttyUSB1 (crw-rw-rw- root dialout)"
+bashio::log.info "  - /dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0 (crw-rw-rw- root dialout)"
+bashio::log.info "  - /dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0 (crw-rw-rw- root dialout)"
 ```
 
 #### 权限问题
@@ -107,18 +107,18 @@ dmesg | grep tty               # 查看设备连接日志
 
 #### Quectel EG25-G
 ```yaml
-serial_device: "/dev/ttyUSB2"  # 通常映射到USB2
+serial_device: "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0"  # 通常映射到USB2
 ```
 
 #### Quectel EC25
 ```yaml
-serial_device: "/dev/ttyUSB0"  # 通常映射到USB0
+serial_device: "/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0"  # 通常映射到USB0
 ```
 
 #### 其他模块
 ```yaml
 # 使用自动检测，或根据实际设备调整
-serial_device: "/dev/ttyUSB1"  # 根据实际情况调整
+serial_device: "/dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0"  # 根据实际情况调整
 ```
 
 ### 8. 动态设备管理
@@ -131,10 +131,10 @@ serial_device: "/dev/ttyUSB1"  # 根据实际情况调整
 #### 多设备支持
 ```json
 "devices": [
-  "/dev/ttyUSB0",  // 支持多个设备同时挂载
-  "/dev/ttyUSB1", 
-  "/dev/ttyUSB2",
-  "/dev/ttyUSB3"
+  "/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0",  // 支持多个设备同时挂载
+  "/dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0", 
+  "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0",
+  "/dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0"
 ]
 ```
 
@@ -156,7 +156,7 @@ serial_device: "/dev/ttyUSB1"  # 根据实际情况调整
 ```bash
 # 在容器内测试设备访问
 ls -la /dev/ttyUSB*
-cat /dev/ttyUSB2  # 测试读取（需要设备响应）
+cat /dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0  # 测试读取（需要设备响应）
 ```
 
 #### 应用集成测试

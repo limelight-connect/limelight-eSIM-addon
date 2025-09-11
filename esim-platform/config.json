@@ -1,6 +1,6 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
@@ -53,10 +53,10 @@
     }
   ],
   "devices": [
-    "/dev/ttyUSB0",
-    "/dev/ttyUSB1", 
-    "/dev/ttyUSB2",
-    "/dev/ttyUSB3"
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0",
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0", 
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0",
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0"
   ],
   "options": {
     "log_level": "info",
@@ -65,7 +65,7 @@
     "debug": false,
     "allowed_hosts": "localhost,127.0.0.1,0.0.0.0",
     "cors_allowed_origins": "http://localhost,http://127.0.0.1",
-    "serial_device": "/dev/ttyUSB2",
+    "serial_device": "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0",
     "data_retention_days": 30,
     "max_upload_size": "50MB",
     "api_timeout": 300,

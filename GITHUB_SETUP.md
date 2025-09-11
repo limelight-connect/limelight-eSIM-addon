@@ -49,7 +49,7 @@ git push origin v1.0.13
 2. 点击 **Install**
 3. 等待安装完成
 4. 进入 **Configuration** 标签页
-5. 配置串口设备路径（如 `/dev/ttyUSB2`）
+5. 配置串口设备路径（如 `/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0`）
 6. 点击 **Save**
 7. 点击 **Start** 启动服务
 

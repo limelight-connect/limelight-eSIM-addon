@@ -127,7 +127,7 @@ docker stop test-esim-addon && docker rm test-esim-addon
 
 ### Required Settings
 
-- **Serial Device**: Path to your eSIM module (e.g., `/dev/ttyUSB0`)
+- **Serial Device**: Path to your eSIM module (e.g., `/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0`)
 - **Timezone**: Your local timezone
 
 ### Optional Settings
@@ -146,7 +146,7 @@ debug: false
 secret_key: ""
 allowed_hosts: "localhost,127.0.0.1,0.0.0.0"
 cors_allowed_origins: "http://localhost,http://127.0.0.1"
-serial_device: "/dev/ttyUSB0"
+serial_device: "/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0"
 data_retention_days: 30
 max_upload_size: "50MB"
 api_timeout: 300
