@@ -64,7 +64,7 @@ echo ""
 
 # Check if we're in the right directory
 if [ ! -f "esim-platform/config.json" ]; then
-    echo -e "${RED}❌ Error: esim-platform/config.json not found. Please run this script from the ha-addon directory.${NC}"
+    echo -e "${RED}❌ Error: esim-platform/config.json not found."
     exit 1
 fi
 
@@ -77,7 +77,6 @@ fi
 # Check if backend and frontend directories exist
 if [ ! -d "../backend" ] || [ ! -d "../frontend" ]; then
     echo -e "${RED}❌ Error: backend/ and frontend/ directories not found.${NC}"
-    echo -e "${YELLOW}Please ensure you're running this from the ha-addon directory and that backend/ and frontend/ exist in the parent directory.${NC}"
     exit 1
 fi
 
@@ -90,14 +89,12 @@ echo ""
 
 # Change to parent directory for build context
 echo -e "${YELLOW}📁 Changing to parent directory for build context...${NC}"
-cd ..
 
 echo -e "${YELLOW}📦 Building Docker image...${NC}"
 echo -e "Image: ${GREEN}${ADDON_NAME}-${BUILD_ARCH}-${VERSION}${NC}"
 echo -e "Build context: ${GREEN}$(pwd)${NC}"
 echo ""
 
-# Build the Docker image from parent directory with ha-addon Dockerfile
 docker build \
     --build-arg BUILD_ARCH=${BUILD_ARCH} \
     --build-arg VERSION=${VERSION} \
@@ -106,7 +103,7 @@ docker build \
     --build-arg NEXT_PUBLIC_DEV_API_URL="" \
     --tag ${ADDON_NAME}-${BUILD_ARCH}:${VERSION} \
     --tag ${ADDON_NAME}-${BUILD_ARCH}:latest \
-    -f ha-addon/esim-platform/Dockerfile .
+    -f esim-platform/Dockerfile .
 
 if [ $? -eq 0 ]; then
     echo ""
@@ -132,9 +129,6 @@ else
     echo -e "${RED}❌ Build failed!${NC}"
     exit 1
 fi
-
-# Return to ha-addon directory
-cd ha-addon
 
 echo -e "${GREEN}🎉 Build process completed!${NC}"
 

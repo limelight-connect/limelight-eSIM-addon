@@ -142,7 +142,7 @@ RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 复制HA add-on特定的启动脚本
-COPY ha-addon/esim-platform/run.sh /run.sh
+COPY esim-platform/run.sh /run.sh
 RUN chmod +x /run.sh
 
 # 使用root用户运行所有服务
