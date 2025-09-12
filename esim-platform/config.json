@@ -1,6 +1,6 @@
 {
   "name": "eSIM Management Platform",
-  "version": "1.1.29",
+  "version": "1.1.30",
   "slug": "esim-platform",
   "description": "A comprehensive eSIM management system with unified Docker deployment for managing eSIM devices and profiles",
   "uart": true,
@@ -57,7 +57,8 @@
     "/dev/serial/by-id/usb-Quectel_EG25-GC-if00-port0",
     "/dev/serial/by-id/usb-Quectel_EG25-GC-if01-port0", 
     "/dev/serial/by-id/usb-Quectel_EG25-GC-if02-port0",
-    "/dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0"
+    "/dev/serial/by-id/usb-Quectel_EG25-GC-if03-port0",
+    "/dev/cdc-wdm0"
   ],
   "options": {
     "log_level": "info",
