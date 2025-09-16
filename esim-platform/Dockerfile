@@ -112,6 +112,7 @@ RUN apt-get update \
         libqmi-utils \
         udhcpc \
         minicom \
+        vim \
     && rm -rf /var/lib/apt/lists/*
 
 # 创建工作目录
