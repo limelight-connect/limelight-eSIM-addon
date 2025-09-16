@@ -3,23 +3,29 @@
 
 CMD="${1:-}"
 
-QMI_PID=$(ps -ef | grep 'quectel-CM' | awk '{print $2}')
-
 if [ "x${CMD}" = "xstop" ]; then
+  echo N > /data/esim/qmi.txt
+  sync
+  QMI_PID=$(ps -ef | grep 'quectel-CM' | grep -v grep | awk '{print $2}')
   [ "x${QMI_PID}" = "x" ] && exit 0
   kill ${QMI_PID}
   exit $?
 fi
 
-[ "x${QMI_PID}" != "x" ] && kill ${QMI_PID}
-sleep 2
+if [ "x${CMD}" = "xstart" ]; then
+  echo Y > /data/esim/qmi.txt
+  sync
+  exit 0
+fi
 
-grep -qE '^Y$' /sys/class/net/wwan0/qmi/raw_ip || echo Y > /sys/class/net/wwan0/qmi/raw_ip #|| exit 1
-
-echo "starting QMI service" > /app/backend/qmi.log
 while [ 1 ];do
-    /usr/bin/quectel-CM 1>>/app/backend/qmi.log 2>&1
-    echo "QMI service restarted" >> /app/backend/qmi.log
-    sleep 5
+  FLAG=$(cat /data/esim/qmi.txt 2>/dev/null)
+  [ "x${FLAG}" = "xY" ] && {
+    QMI_PID=$(ps -ef | grep 'quectel-CM' | grep -v grep | awk '{print $2}')
+    [ "x${QMI_PID}" != "x" ] && kill ${QMI_PID}
+    grep -qE '^Y$' /sys/class/net/wwan0/qmi/raw_ip || echo Y > /sys/class/net/wwan0/qmi/raw_ip
+    /usr/bin/quectel-CM 1>/dev/null 2>&1
+  }
+  sleep 5
 done
 exit 0
