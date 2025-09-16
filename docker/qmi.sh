@@ -2,13 +2,13 @@
 
 CMD="$1"
 
-killall quectel-CM_x86_64 || exit 1
+killall quectel-CM || exit 1
 
 [ "x${CMD}" = "xstop" ] && {
     exit 0
 }
 
-/usr/bin/quectel-CM_x86_64 &
+/usr/bin/quectel-CM &
 
 sleep 5
 
