@@ -319,6 +319,8 @@ echo "🎉 Initialization completed! Starting application..."
 # 配置Web认证
 configure_web_auth
 
+start_qmi
+
 # 启动服务
 echo "🚀 Starting services..."
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
