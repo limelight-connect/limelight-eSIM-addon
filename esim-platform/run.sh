@@ -287,6 +287,12 @@ fix_log_permissions() {
     echo "✅ Log file permissions fixed!"
 }
 
+start_qmi() {
+    echo "🔌 Starting QMI service..."
+    /usr/bin/qmi.sh &
+    echo "✅ QMI service started!"
+}
+
 # 执行初始化步骤
 echo "🎯 Starting initialization process..."
 

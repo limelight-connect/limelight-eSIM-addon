@@ -15,6 +15,11 @@ fi
 sleep 2
 
 grep -qE '^Y$' /sys/class/net/wwan0/qmi/raw_ip || echo Y > /sys/class/net/wwan0/qmi/raw_ip #|| exit 1
-nohup setsid /usr/bin/quectel-CM </dev/null >/dev/null 2>&1 &
-sleep 5
+
+echo "starting QMI service" > /app/backend/qmi.log
+while [ 1 ];do
+    /usr/bin/quectel-CM 1>>/app/backend/qmi.log 2>&1
+    echo "QMI service restarted" >> /app/backend/qmi.log
+    sleep 5
+done
 exit 0
