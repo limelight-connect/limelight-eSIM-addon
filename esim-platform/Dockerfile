@@ -144,9 +144,10 @@ COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 复制HA add-on特定的启动脚本
 COPY esim-platform/run.sh /run.sh
-COPY docker/qmi.sh /usr/bin/qmi.sh
-COPY docker/quectel-CM_x86_64 /usr/bin/quectel-CM
-RUN chmod +x /run.sh /usr/bin/qmi.sh /usr/bin/quectel-CM
+RUN chmod +x /run.sh
+# COPY docker/qmi.sh /usr/bin/qmi.sh
+# COPY docker/quectel-CM_x86_64 /usr/bin/quectel-CM
+# RUN chmod +x /usr/bin/qmi.sh /usr/bin/quectel-CM
 
 
 # 使用root用户运行所有服务

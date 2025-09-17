@@ -287,11 +287,11 @@ fix_log_permissions() {
     echo "✅ Log file permissions fixed!"
 }
 
-start_qmi() {
-    echo "🔌 Starting QMI service..."
-    /usr/bin/qmi.sh &
-    echo "✅ QMI service started!"
-}
+# start_qmi() {
+#     echo "🔌 Starting QMI service..."
+#     /usr/bin/qmi.sh &
+#     echo "✅ QMI service started!"
+# }
 
 # 执行初始化步骤
 echo "🎯 Starting initialization process..."
@@ -319,7 +319,7 @@ echo "🎉 Initialization completed! Starting application..."
 # 配置Web认证
 configure_web_auth
 
-start_qmi
+# start_qmi
 
 # 启动服务
 echo "🚀 Starting services..."
