@@ -33,6 +33,7 @@ if [ "x${CMD}" = "xstop" ]; then
   }
   [ "x${MODE}" = "xECM" ] && {
     [ "x${IFNAME}" = "x" ] && exit 1
+    pkill -f "udhcpc -i ${IFNAME}" 2>/dev/null
     ip link set dev "${IFNAME}" down && \
     ip addr flush dev "${IFNAME}" && \
     ip route flush dev "${IFNAME}"
@@ -44,6 +45,7 @@ fi
 if [ "x${CMD}" = "xstart" ]; then
   echo Y > /data/esim/qmi.txt
   sync
+  sleep 5
   exit 0
 fi
 
@@ -67,6 +69,8 @@ while [ 1 ];do
         ip link show dev "${ESIM_IFNAME}" 2>/dev/null | grep -qw "UP" || {
           ip link set dev "${ESIM_IFNAME}" up
         }
+        pkill -f "udhcpc -i ${IFNAME}" 2>/dev/null
+        udhcpc -i "${IFNAME}"
         echo "" > /data/esim/qmi.txt
       fi
     fi
