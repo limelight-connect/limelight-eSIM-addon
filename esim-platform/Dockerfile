@@ -131,8 +131,9 @@ COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY esim-platform/run.sh /run.sh
 COPY docker/qmi.sh /usr/bin/qmi.sh
+COPY docker/wifi-router.sh /usr/bin/wifi-router.sh
 COPY docker/quectel-CM_x86_64 /usr/bin/quectel-CM
-RUN chmod +x /run.sh /usr/bin/qmi.sh /usr/bin/quectel-CM
+RUN chmod +x /run.sh /usr/bin/qmi.sh /usr/bin/wifi-router.sh /usr/bin/quectel-CM
 
 # 避免 hostapd/dnsmasq 在容器启动时被默认服务启动（我们用脚本/API控制）
 RUN systemctl mask hostapd 2>/dev/null || true \
