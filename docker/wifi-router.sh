@@ -22,7 +22,7 @@ PASSPHRASE="${PASSPHRASE:-ChangeMe12345}"
 CHANNEL="${CHANNEL:-6}"
 HW_MODE="${HW_MODE:-g}"
 
-RUNDIR="${RUNDIR:-/data/esim/wifi-router}"
+RUNDIR="${RUNDIR:-/data/esim}"
 PID_HOSTAPD="${RUNDIR}/hostapd.pid"
 PID_DNSMASQ="${RUNDIR}/dnsmasq.pid"
 CONF_HOSTAPD="${RUNDIR}/hostapd.conf"

@@ -106,7 +106,6 @@ RUN apt-get update \
         iputils-ping \
         git \
         tig \
-        net-utils \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
