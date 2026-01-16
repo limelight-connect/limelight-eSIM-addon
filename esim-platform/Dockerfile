@@ -103,6 +103,10 @@ RUN apt-get update \
         iproute2 \
         ebtables \
         bridge-utils \
+        iputils-ping \
+        git \
+        tig \
+        net-utils \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
