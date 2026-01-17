@@ -6,8 +6,14 @@ ACTION="${1:-}"
 AP_IF="${AP_IF:-wlp0s20f3}"
 
 WAN_IF="${WAN_IF:-enp3s0}"
-WAN_CANDIDATES="${WAN_CANDIDATES:-enp3s0 wwan0}"
+WAN_CANDIDATES="${WAN_CANDIDATES:-enp3s0,wwan0}"
 WAN_TEST_HOST="${WAN_TEST_HOST:-1.1.1.1}"
+
+normalize_wan_candidates() {
+  WAN_CANDIDATES=$(echo "$WAN_CANDIDATES" | tr ',' ' ' | tr -s ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+}
+
+normalize_wan_candidates
 WAN_TEST_TIMEOUT="${WAN_TEST_TIMEOUT:-2}"
 MONITOR_INTERVAL="${MONITOR_INTERVAL:-10}"
 
@@ -149,15 +155,14 @@ apply_wan() {
 write_confs() {
   cat >"$CONF_DNSMASQ" <<EOF
 interface=${AP_IF}
-bind-interfaces
+bind-dynamic
+port=0
 dhcp-range=${DHCP_START},${DHCP_END},255.255.255.0,${DHCP_LEASE}
 dhcp-option=option:router,${LAN_GW}
-dhcp-option=option:dns-server,${LAN_GW}
+dhcp-option=option:dns-server,1.1.1.1
+dhcp-option=option:dns-server,8.8.8.8
 domain-needed
 bogus-priv
-no-resolv
-server=1.1.1.1
-server=8.8.8.8
 log-dhcp
 EOF
 
