@@ -6,7 +6,7 @@ ACTION="${1:-}"
 AP_IF="${AP_IF:-wlp0s20f3}"
 
 WAN_IF="${WAN_IF:-enp3s0}"
-WAN_CANDIDATES="${WAN_CANDIDATES:-enp3s0,wwan0}"
+WAN_CANDIDATES="${WAN_CANDIDATES:-enp3s0,enp0s20f0u7i4}"
 WAN_TEST_HOST="${WAN_TEST_HOST:-1.1.1.1}"
 
 normalize_wan_candidates() {
